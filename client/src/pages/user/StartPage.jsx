@@ -1,5 +1,5 @@
 import React from 'react'
-import Logo from "../assets/ClassClan-tranparent.png"
+import Logo from "../../assets/ClassClan-tranparent.png"
 import { useNavigate } from 'react-router-dom'
 
 function StartPage() {

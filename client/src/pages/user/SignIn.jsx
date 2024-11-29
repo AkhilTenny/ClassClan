@@ -1,5 +1,5 @@
 import React from 'react'
-import Logo from "../assets/ClassClan-tranparent.png"
+import Logo from "../../assets/ClassClan-tranparent.png"
 
 function SignIn() {
   return (
@@ -26,7 +26,7 @@ function SignIn() {
           
       </div>
       <div className='flex-1 flex items-end justify-center pb-5'>
-        <a className='underline text-sky-600 underline-offset-1' href='/moderator'>continue as moderator</a>
+        <a className='underline text-sky-600 underline-offset-1' href='/moderator/signIn'>continue as moderator</a>
 
       </div>
     </div>
