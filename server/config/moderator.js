@@ -26,8 +26,6 @@ async function addModerator(userData){
     }catch(err){
       reject(err)
     }
-    console.log("username",userData.username)
-    console.log("hashed passcod",hashedPassword)
     let newModerator 
     try{
         newModerator = new moderatorModel({
@@ -47,6 +45,7 @@ async function addModerator(userData){
 
 module.exports= {
   addModerator,
+  moderatorModel
 
 
 }

@@ -38,7 +38,6 @@ const BaseURL = process.env.REACT_APP_BASE_URL
         password:password
       }
       )
-      alert("account created sucsessfully. signin with your credentials ")
       navigate(0)
     }
     catch(err){

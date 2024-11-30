@@ -7,6 +7,9 @@ var logger = require('morgan');
 var cors = require("cors")
 const connectDB = require('./config/dbConnection'); 
 
+const bodyParser = require('body-parser');
+
+
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -15,6 +18,9 @@ var moderatorRouter = require("./routes/moderator")
 var app = express();
 
 app.use(cors());
+
+app.use(bodyParser.json());
+
 
 //connection to DB
 connectDB();

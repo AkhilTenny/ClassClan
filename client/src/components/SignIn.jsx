@@ -1,7 +1,13 @@
 import React from 'react'
+import axios from 'axios'
 import { useState,useEffect } from 'react'
+import { useNavigate } from 'react-router-dom';
+const baseURL = process.env.REACT_APP_BASE_URL;
 
-function SignIn(props) {
+
+function SignIn() {
+
+  const navigate = useNavigate();
 
   const [formInputs,setformInputs] = useState({
     username:'',
@@ -20,13 +26,33 @@ function SignIn(props) {
   },[formInputs])
 
 
+  const signInAction = async () => {
+      let signInData
+      await axios.post(`${baseURL}/Moderator/signIn`, {
+        username: formInputs.username,
+        password: formInputs.password,
+      }).then((data)=>{
+        localStorage.setItem('moderatorAuthToken',data.data.token)
+        navigate("/moderator/dashboard")
+
+      }
+      ).catch((err)=>{
+        alert(err.response.data.message)
+      })
+
+
+
+  
+   
+  };
+  
   return (
     
     <div className='bg-white h-screen '>
      
       <div className='w-full flex items-center justify-center h-1/2'>
           <div className='w-1/2 flex items-center justify-center'>
-            <form action="/login" method="POST">
+            <div >
                 <div className='flex flex-col'>
                   <label htmlFor="Username">Username:</label>
                   <input 
@@ -67,6 +93,7 @@ function SignIn(props) {
                   {
                     pass?
                     <button 
+                    onClick={signInAction}
                     className='shadow-xl  mr-2  bg-gradient-to-b from-customPink-3 to-customPink-6 rounded-md p-2 mt-4 flex items-center justify-center ' 
                     type="submit">
                       Sign In
@@ -75,7 +102,7 @@ function SignIn(props) {
                     <button 
                     className='shadow-xl  mr-2  bg-gradient-to-b from-gray-300 to-gray-600 rounded-md p-2 mt-4 flex items-center justify-center cursor-not-allowed' 
                     disabled={true} 
-                    type="submit">
+                    >
                       Sign In
                     </button>
 
@@ -83,7 +110,7 @@ function SignIn(props) {
 
 
                 </div>
-            </form>
+            </div>
           </div>
       </div>
      
