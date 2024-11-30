@@ -1,7 +1,15 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react'
+import axios from "axios"
+import { useNavigate } from "react-router-dom";
+
+
 
 function SignUp() {
+
+  const navigate = useNavigate();
+const BaseURL = process.env.REACT_APP_BASE_URL
+
   const [username,setUsername] = useState('')
   const [password,setPassword] = useState('')
   const [conPassword,setConPassword] = useState('')
@@ -20,6 +28,25 @@ function SignUp() {
     }    console.log(pass)
 
   },[conPassword,password,username])
+
+  const signInAction =async()=>{
+
+
+    try{
+      const response = await axios.post(`${BaseURL}/moderator/signUp`,{
+        username:username,
+        password:password
+      }
+      )
+      alert("account created sucsessfully. signin with your credentials ")
+      navigate(0)
+    }
+    catch(err){
+      alert("SignUp action failed")
+    }
+    
+    
+  }
 
   return (
     <div>
@@ -67,7 +94,7 @@ function SignUp() {
                 <div className='flex justify-end w-full'>
                   {
                     pass ?
-                    <button className='shadow-xl bg-gradient-to-b from-customPink-3 to-customPink-6  bg-lime-500 p-2 rounded-md mt-4' type="submit" >Sign Up</button> :
+                    <button onClick={signInAction} className='shadow-xl bg-gradient-to-b from-customPink-3 to-customPink-6  bg-lime-500 p-2 rounded-md mt-4' type="submit" >Sign Up</button> :
                     <button className='shadow-xl bg-gradient-to-b from-gray-300 to-gray-500  p-2 rounded-md mt-4 cursor-not-allowed' type="submit" disabled={true}>Sign Up</button>
 
 
