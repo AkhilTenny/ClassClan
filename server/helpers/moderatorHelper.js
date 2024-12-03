@@ -27,6 +27,7 @@ async function findUser(username){
 }
 async function checkPassword(userData){
   return new Promise(async(resolve,reject)=>{
+    
     const userFound = await moderatorModel.aggregate([
       {
         $match: {
@@ -34,7 +35,6 @@ async function checkPassword(userData){
         }
       }
     ])
-
     const autenthicate = await bcrypt.compare(userData.password,userFound[0].password)
     if(autenthicate){
       resolve(autenthicate)

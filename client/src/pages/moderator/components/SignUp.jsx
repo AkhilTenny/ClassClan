@@ -25,7 +25,7 @@ const BaseURL = process.env.REACT_APP_BASE_URL
     }
     if(username === ""){
       setPass(false)
-    }    console.log(pass)
+    }    
 
   },[conPassword,password,username])
 

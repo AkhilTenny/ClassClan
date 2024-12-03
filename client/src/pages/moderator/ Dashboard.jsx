@@ -1,15 +1,34 @@
 import React from 'react'
 import avatarLogo from "../../assets/avatar-logo.png" 
+import Modal from './components/Modal';
+
+import { useState } from 'react'
 
 
 const user = "Akhil"
 
 function  Dashboard() {
+  function isModalOpen(){
+    setModalOpen(true)
+  }
+  function isModalClose(){
+    setModalOpen(false)
+  }
+  const [ModalOpen,setModalOpen] = useState(false)
   return (
     <div className="h-screen bg-[url('./assets/background.jpg')] bg-cover bg-center">
       <div className='flex w-full justify-between h-16 items-center bg-gradient-to-t from-customPink-3 to-customPink-5'>
         <h1 className='text-xl ml-3 font-bold cursor-pointer'>Moderator: {user}</h1>
-        <img className='w-10 h-10 mr-5 cursor-pointer' src={avatarLogo} alt="" />
+        <div className='relative  '>
+          <img onClick={isModalOpen} className=' w-10 h-10 mr-5 cursor-pointer' src={avatarLogo} alt="" />
+          {
+            ModalOpen?
+            <Modal isClose={isModalClose}/>:
+          <div></div>
+          }
+          
+        </div>
+        
       </div>
       <div >
         <div className='pt-5'>

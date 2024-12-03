@@ -1,19 +1,22 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import axios from 'axios'
 import { useState,useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { useToken } from '../../../context/AuthContext';
+
 const baseURL = process.env.REACT_APP_BASE_URL;
+
 
 
 function SignIn() {
 
   const navigate = useNavigate();
+  const { modToken, setModToken, } = useToken();
 
   const [formInputs,setformInputs] = useState({
     username:'',
     password:''  })
 
-    console.log(formInputs)
   const [pass,setPass] = useState(false)
 
   useEffect(()=>{
@@ -33,11 +36,13 @@ function SignIn() {
         password: formInputs.password,
       }).then((data)=>{
         localStorage.setItem('moderatorAuthToken',data.data.token)
+        setModToken(data.data.token)
+
         navigate("/moderator/dashboard")
 
       }
       ).catch((err)=>{
-        alert(err.response.data.message)
+        alert("Wrong credentials!")
       })
 
 

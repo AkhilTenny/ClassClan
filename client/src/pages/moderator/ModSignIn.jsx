@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
-import SignIn from '../../components/SignIn';
-import SignUp from '../../components/SignUp';
+import SignIn from './components/SignIn';
+import SignUp from './components/SignUp';
 
 function ModSignIn() {
   const [option,setOption] = useState(true);
