@@ -2,7 +2,7 @@ import React from 'react'
 import { Routes, Route } from "react-router-dom";
 import StartPage from './pages/user/StartPage';
 import Layout from "./Layout"
-import SignIn from './pages/moderator/components/SignIn';
+import SignIn from './pages/user/SignIn';
 import ModSignIn from './pages/moderator/ModSignIn';
 import Dashboard from './pages/moderator/ Dashboard';
 import { TokenProvider } from './context/AuthContext';

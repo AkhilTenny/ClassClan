@@ -42,7 +42,7 @@ function SignIn() {
 
       }
       ).catch((err)=>{
-        alert("Wrong credentials!")
+        console.log(err.response.data.message)
       })
 
 

@@ -1,35 +1,13 @@
 import React from 'react'
-import avatarLogo from "../../assets/avatar-logo.png" 
-import Modal from './components/Modal';
+import Header from './components/Header';
+import AddClassModal from './components/AddClassModal';
 
-import { useState } from 'react'
-
-
-const user = "Akhil"
 
 function  Dashboard() {
-  function isModalOpen(){
-    setModalOpen(true)
-  }
-  function isModalClose(){
-    setModalOpen(false)
-  }
-  const [ModalOpen,setModalOpen] = useState(false)
+ 
   return (
     <div className="h-screen bg-[url('./assets/background.jpg')] bg-cover bg-center">
-      <div className='flex w-full justify-between h-16 items-center bg-gradient-to-t from-customPink-3 to-customPink-5'>
-        <h1 className='text-xl ml-3 font-bold cursor-pointer'>Moderator: {user}</h1>
-        <div className='relative  '>
-          <img onClick={isModalOpen} className=' w-10 h-10 mr-5 cursor-pointer' src={avatarLogo} alt="" />
-          {
-            ModalOpen?
-            <Modal isClose={isModalClose}/>:
-          <div></div>
-          }
-          
-        </div>
-        
-      </div>
+      <Header/>
       <div >
         <div className='pt-5'>
         <h1 className='text-xl ml-3 font-bold cursor-pointer'>Your classes:</h1>
@@ -52,9 +30,13 @@ function  Dashboard() {
           </div>
 
         </div>
-        <div className='p-5'>
-        <button className='shadow-xl p-px bg-gradient-to-b from-customPink-4 px-2 to-customPink-5 mr-5 rounded-md '>Add Class +</button>
-        </div>
+
+        </div >
+        <div className='p-5 w-min flex align-top '>
+
+        <button className='shadow-xl h-min w-28 mt-4 p-px bg-gradient-to-b from-customPink-4 px-2 to-customPink-5 mr-5 rounded-md '>Add Class +</button>
+        <AddClassModal/>
+
       </div>
     </div>
   )
