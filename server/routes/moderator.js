@@ -22,6 +22,7 @@ router.post("/signIn",function(req,res,next){
     moderatorHelper.checkPassword(req.body).then((res2)=>{
       console.log("res 2:",res2)
       const  token = moderatorHelper.createUserToken(req.body.username)
+      console.log("token on login:",token)
       res.status(200).json({message:"login successfull",token})
       }).catch((err1)=>{
         console.log("err2", err2)
@@ -35,8 +36,9 @@ router.post("/signIn",function(req,res,next){
 
 router.post("/addClass",function(req,res){
   authenticationToken = req.headers['authorization']
+  console.log(authenticationToken)
   moderatorHelper.findUserWithToken(authenticationToken).then((res)=>{
-    
+    console.log("res",res)
   }).catch((err)=>{
     res.status(400).json({message:"err"})
   })

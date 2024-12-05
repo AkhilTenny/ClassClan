@@ -59,10 +59,8 @@ async function checkPassword(userData){
 }
 
  function createUserToken(username){
-  new Promise(async (resolve,reject)=>{
     const token = jwt.sign({username},secretKey,{expiresIn:'1d'})
     return token  
-  })
 
 
 }
