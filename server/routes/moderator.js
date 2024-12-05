@@ -1,13 +1,34 @@
 var express = require('express');
 var router = express.Router();
-const moderator = require('../config/moderator')
+const tokenKey = process.env.tokenKey
+const jwt = require("jsonwebtoken")
 const moderatorHelper = require("../helpers/moderatorHelper");
+const classHelper = require('../helpers/classHelper')
+
+/* middleware to check and return the userId with Token */
+
+function findUser(req,res,next){
+  console.log("userData")
+
+  const tokenData = jwt.verify(req.headers['authorization'],tokenKey)
+  if(tokenData){
+    
+    moderatorHelper.findModeratorDataWithId(tokenData.moderatorId).then((moderatorData)=>{
+      req.moderatorData = moderatorData[0]
+      next()
+    })
+
+    
+  }else{
+    res.status(400).json({message:"token is expired"})
+  }
+}
 
 
 /* All routes For the moderator pages. */
 
 router.post('/signUp', function(req, res, next) {
-  moderator.addModerator(req.body).then(
+  moderatorHelper.addModerator(req.body).then(
     (response)=>{
       res.status(200).json({message:"signIn successfull"})
     }).catch((error)=>{
@@ -19,13 +40,12 @@ router.post('/signUp', function(req, res, next) {
 
 router.post("/signIn",function(req,res,next){
   moderatorHelper.findUser(req.body.username).then((res1)=>{
-    moderatorHelper.checkPassword(req.body).then((res2)=>{
+    moderatorHelper.checkPassword(req.body).then(async(res2)=>{
       console.log("res 2:",res2)
-      const  token = moderatorHelper.createUserToken(req.body.username)
+      const  token = await moderatorHelper.createUserToken(req.body.username)
       console.log("token on login:",token)
       res.status(200).json({message:"login successfull",token})
       }).catch((err1)=>{
-        console.log("err2", err2)
       res.status(400).json({message:"Cross Check That Password!"})
     })
   }).catch((err2)=>{
@@ -34,14 +54,12 @@ router.post("/signIn",function(req,res,next){
 
 })
 
-router.post("/addClass",function(req,res){
-  authenticationToken = req.headers['authorization']
-  console.log(authenticationToken)
-  moderatorHelper.findUserWithToken(authenticationToken).then((res)=>{
-    console.log("res",res)
-  }).catch((err)=>{
-    res.status(400).json({message:"err"})
-  })
+router.post("/addClass",findUser,function(req,res){
+  const moderatorId = req.moderatorData.moderatorId
+  const className = req.body.className
+  classHelper.createClass(className,moderatorId)
+
+  
 
 })
 

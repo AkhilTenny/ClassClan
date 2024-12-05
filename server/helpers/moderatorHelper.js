@@ -1,9 +1,15 @@
-const moderatorConfig = require("../config/moderator")
+const moderatorConfig = require("../config/moderators")
 const mongoose = require('mongoose')
 const moderatorModel = moderatorConfig.moderatorModel
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 const secretKey = process.env.tokenKey
+const classHelper = require("./classHelper")
+const crypto = require("crypto")
+const size=10
+
+
+const saltRounds = 10;
 
 
 async function findUser(username){
@@ -11,7 +17,7 @@ async function findUser(username){
     const userFound = await moderatorModel.aggregate([
       {
         $match: {
-          username:username
+          moderatorName:username
         }
       }
     ])
@@ -31,7 +37,7 @@ async function checkPassword(userData){
     const userFound = await moderatorModel.aggregate([
       {
         $match: {
-          username:userData.username
+          moderatorName:userData.username
         }
       }
     ])
@@ -46,33 +52,87 @@ async function checkPassword(userData){
   })
 }
 
- function findUserWithToken(token){
+async function addModerator(userData){
+  let hashedPassword
   return new Promise(async(resolve,reject)=>{
-    const verifiedToken = jwt.verify(token,secretKey)
-    if(verifiedToken){
-      resolve(verifiedToken)
-    }else{
-      reject("token currepted")
+     const ramdomBytes = crypto.randomBytes(size) 
+     const cyrptoId = ramdomBytes.toString('hex')
+    try{
+      hashedPassword = await bcrypt.hash(userData.password,saltRounds);
+
+    }catch(err){
+      reject(err)
+    }
+    let newModerator 
+    try{
+        newModerator = new moderatorModel({
+        moderatorId:cyrptoId,
+        moderatorName:userData.username,
+        password:hashedPassword,
+
+      })
+    }
+    catch(err){
+      reject(err)
     }
     
+
+    await newModerator.save();
+    resolve(newModerator);
   })
 }
 
- function createUserToken(username){
-    const token = jwt.sign({username},secretKey,{expiresIn:'1d'})
+
+async function findModeratorId(username){
+  const cryptoId = await moderatorModel.aggregate([
+    [
+      {
+        $match: {
+          moderatorName:username
+        }
+      },{
+        $project: {
+          moderatorId:1,
+          _id:0
+        }
+      }
+    ]
+  ])
+  const moderatorId = cryptoId[0]
+  return moderatorId;
+}
+
+function findModeratorDataWithId(moderatorId){
+  return new Promise(async(resolve, reject) => {
+    const moderatorData = await moderatorModel.aggregate([
+      {
+        $match:{
+          moderatorId:moderatorId
+        }
+      }
+    ])
+    resolve(moderatorData)
+  })
+  
+}
+
+ async function createUserToken(username){
+    const moderatorId = await findModeratorId(username)
+    const token = jwt.sign(moderatorId,secretKey,{expiresIn:'1d'})
+    console.log("token",moderatorId)
     return token  
 
 
 }
 
-function addClass(username,className){
-  
-}
+
 
 module.exports={
   findUser,
   checkPassword,
   createUserToken,
-  findUserWithToken
+  findModeratorId,
+  addModerator,
+  findModeratorDataWithId,
 
 }
