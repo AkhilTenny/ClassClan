@@ -2,7 +2,6 @@ const moderatorConfig = require("../config/moderator")
 const mongoose = require('mongoose')
 const moderatorModel = moderatorConfig.moderatorModel
 const bcrypt = require("bcrypt")
-const { token } = require("morgan")
 const jwt = require("jsonwebtoken")
 const secretKey = process.env.tokenKey
 
@@ -27,6 +26,7 @@ async function findUser(username){
 }
 async function checkPassword(userData){
   return new Promise(async(resolve,reject)=>{
+    console.log(userData)
     
     const userFound = await moderatorModel.aggregate([
       {
@@ -36,6 +36,7 @@ async function checkPassword(userData){
       }
     ])
     const autenthicate = await bcrypt.compare(userData.password,userFound[0].password)
+    console.log(autenthicate)
     if(autenthicate){
       resolve(autenthicate)
     }else{
@@ -45,16 +46,35 @@ async function checkPassword(userData){
   })
 }
 
-async function createUserToken(username){
+ function findUserWithToken(token){
+  return new Promise(async(resolve,reject)=>{
+    const verifiedToken = jwt.verify(token,secretKey)
+    if(verifiedToken){
+      resolve(verifiedToken)
+    }else{
+      reject("token currepted")
+    }
+    
+  })
+}
 
-  const token = jwt.sign({username},secretKey,{expiresIn:'1d'})
-  return token;
+ function createUserToken(username){
+  new Promise(async (resolve,reject)=>{
+    const token = jwt.sign({username},secretKey,{expiresIn:'1d'})
+    return token  
+  })
 
+
+}
+
+function addClass(username,className){
+  
 }
 
 module.exports={
   findUser,
   checkPassword,
-  createUserToken
+  createUserToken,
+  findUserWithToken
 
 }
