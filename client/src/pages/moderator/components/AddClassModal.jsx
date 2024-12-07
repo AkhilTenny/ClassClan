@@ -1,24 +1,28 @@
 import React, { useState } from 'react'
 import { addClass } from '../../../action/api/moderatorAPIs';
 import { useToken } from '../../../context/AuthContext';
-
-const baseURL = process.env.REACT_APP_BASE_URL;
- 
+import { useApi } from '../../../action/api/moderatorAPIs'; 
 
 function AddClassModal() {
-  const {modToken} = useToken()
   const [className,setClassName]=  useState(null)
-  const classNameTypo = (value)=>{
-      setClassName(value)
-  }
-  const addClassAcion = async()=>{
-    
-    const body = {
+  const {addClass} = useApi()
+
+  const {modToken} = useToken()
+
+  const addClassAcion = ()=>{
+   const body = {
       className:className
     }
     
-    addClass(body)
+    addClass(body).then(res=>{
+      console.log(res)
+    }).catch(res=>{
+      console.log(res)
+    })
+
   }
+
+ 
   
   return (
     <div className='flex flex-col  items-end justify-between z-10 bottom-0 rounded-lg bg-gradient-to-t from-customPink-3 to-customPink-5 shadow-lg p-2 w-52 h-36'>
@@ -27,7 +31,7 @@ function AddClassModal() {
         <button className='rounded-lg bg-white px-2 '>✖</button>
       </div >
       <div>
-      <input onChange={(e)=>{classNameTypo(e.target.value)}} className='p-2 w-full rounded-md ' type="text" />
+      <input onChange={(e)=>{setClassName(e.target.value)}} className='p-2 w-full rounded-md ' type="text" />
       </div>
       <div>
         <button onClick={addClassAcion} className='p-2 rounded-md bg-customPink-4'>add class</button>

@@ -1,14 +1,16 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react'
 import { useNavigate } from "react-router-dom";
-import { moderatorSignUp } from '../../../action/api/moderatorAPIs';
+import { useApi } from '../../../action/api/moderatorAPIs';
+
 
 
 
 function SignUp() {
+  const {moderatorSignUp} = useApi()
+
 
   const navigate = useNavigate();
-const BaseURL = process.env.REACT_APP_BASE_URL
 
   const [username,setUsername] = useState('')
   const [password,setPassword] = useState('')
@@ -31,7 +33,6 @@ const BaseURL = process.env.REACT_APP_BASE_URL
   },[conPassword,password,username])
 
   const signInAction =async()=>{
-
 
     moderatorSignUp(username,password).then(res=>{
       navigate(0)
@@ -88,7 +89,9 @@ const BaseURL = process.env.REACT_APP_BASE_URL
                 <div className='flex justify-end w-full'>
                   {
                     pass ?
-                    <button onClick={signInAction} className='shadow-xl bg-gradient-to-b from-customPink-3 to-customPink-6  bg-lime-500 p-2 rounded-md mt-4' type="submit" >Sign Up</button> :
+                    <button 
+                    onClick={signInAction}
+                     className='shadow-xl bg-gradient-to-b from-customPink-3 to-customPink-6  bg-lime-500 p-2 rounded-md mt-4' type="submit" >Sign Up</button> :
                     <button className='shadow-xl bg-gradient-to-b from-gray-300 to-gray-500  p-2 rounded-md mt-4 cursor-not-allowed' type="submit" disabled={true}>Sign Up</button>
 
 

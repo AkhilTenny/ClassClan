@@ -2,15 +2,12 @@ import React from 'react'
 import { useState,useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useToken } from '../../../context/AuthContext';
-
-const moderatorApiAction = require("../../../action/api/moderatorAPIs")
-
-const baseURL = process.env.REACT_APP_BASE_URL;
+import { useApi } from '../../../action/api/moderatorAPIs';
 
 
 
 function SignIn() {
-
+  const {moderatorSignIn} = useApi()
   const navigate = useNavigate();
   const {  signIn, } = useToken();
 
@@ -30,7 +27,7 @@ function SignIn() {
   },[formInputs])
 
    const signInAction= ()=>{
-    moderatorApiAction.moderatorSignIn(formInputs.username,formInputs.password).then((res)=>{
+    moderatorSignIn(formInputs.username,formInputs.password).then((res)=>{
       signIn(res.token)
       navigate("/moderator/dashboard")
     }).catch(res=>{

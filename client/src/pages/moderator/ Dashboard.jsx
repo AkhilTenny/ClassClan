@@ -1,21 +1,27 @@
 import React, { useEffect, useState } from 'react'
 import Header from './components/Header';
 import AddClassModal from './components/AddClassModal';
-import axios from 'axios';
 import { useToken } from '../../context/AuthContext';
-const BaseURL = process.env.REACT_APP_BASE_URL
+import moderatorClassCard from './components/moderatorClassCard';
+import { useApi } from '../../action/api/moderatorAPIs';
+
+
 
 
 
 function  Dashboard() {
+  const {getClassList} = useApi()
+
   const [classList,setClassList]  = useState([])
   const {modToken} = useToken()
   
-  useEffect(async()=>{
+  useEffect(()=>{
+    getClassList().then(res=>{ 
+      console.log(res.data)
+    })
   
-       const responce =  await axios.get(`${BaseURL}/moderator/classList`,{headers:{authorization:modToken}})
-        setClassList(responce.data.classList)
-        const classes = responce.data.classList
+        
+        
         
         
   },[])
@@ -29,15 +35,7 @@ function  Dashboard() {
         </div>
         {
           classList.map((item)=>(
-            <div className='w-full  px-5 '>
-            <div className='rounded-md bg-gradient-to-r mt-5 from-customBlue-2 to-customPink-3 h-10 w-full opacity-65 shadow-md flex items-center justify-between'>
-              <h1 className='ml-5'> S1 CT</h1>
-              <button className='shadow-xl p-px bg-gradient-to-b from-customBlue-3 px-2 to-customBlue-6 mr-5 rounded-md '>Edit</button>
-  
-            </div>
-            
-  
-          </div>
+            <moderatorClassCard/>
           ))
         }
        
