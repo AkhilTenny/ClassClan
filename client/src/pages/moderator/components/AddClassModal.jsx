@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import axios from 'axios'
+import { addClass } from '../../../action/api/moderatorAPIs';
 import { useToken } from '../../../context/AuthContext';
 
 const baseURL = process.env.REACT_APP_BASE_URL;
@@ -12,15 +12,12 @@ function AddClassModal() {
       setClassName(value)
   }
   const addClassAcion = async()=>{
-    const headers = {
-      'Content-Type': 'application/json',
-      'authorization': modToken,
-    }
+    
     const body = {
       className:className
     }
-    axios.post(`${baseURL}/moderator/addClass`,body,{headers})
-
+    
+    addClass(body)
   }
   
   return (

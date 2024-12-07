@@ -20,9 +20,13 @@ export const TokenProvider = ({children}) =>{
     navigate('moderator/signIn')
 
   }   
+  const signIn = (token) =>{
+    localStorage.setItem("moderatorAuthToken",token)
+    setModToken(token)
+  }
 
   return(
-    <TokenContext.Provider value={{modToken,setModToken,token,setToken,logout}}>
+    <TokenContext.Provider value={{modToken,setModToken,token,setToken,logout,signIn}}>
     {children}
     </TokenContext.Provider>
   )

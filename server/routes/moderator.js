@@ -8,13 +8,13 @@ const classHelper = require('../helpers/classHelper')
 /* middleware to check and return the userId with Token */
 
 function findUser(req,res,next){
-  console.log("userData")
 
   const tokenData = jwt.verify(req.headers['authorization'],tokenKey)
   if(tokenData){
     
     moderatorHelper.findModeratorDataWithId(tokenData.moderatorId).then((moderatorData)=>{
       req.moderatorData = moderatorData[0]
+    
       next()
     })
 
@@ -59,8 +59,13 @@ router.post("/addClass",findUser,function(req,res){
   const className = req.body.className
   classHelper.createClass(className,moderatorId)
 
-  
-
 })
+
+router.get('/classList',findUser,function(req,res){
+  classHelper.classList(req.moderatorData.moderatorId).then((classList)=>{
+    res.status(200).json({classList})
+  })
+})
+
 
 module.exports = router;

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react'
-import axios from "axios"
 import { useNavigate } from "react-router-dom";
+import { moderatorSignUp } from '../../../action/api/moderatorAPIs';
 
 
 
@@ -16,6 +16,7 @@ const BaseURL = process.env.REACT_APP_BASE_URL
   const [pass,setPass] = useState(false)
 
   useEffect(()=>{
+
     if(conPassword === "" || password ===""){
       setPass(false)
     }else if(conPassword === password){
@@ -32,18 +33,12 @@ const BaseURL = process.env.REACT_APP_BASE_URL
   const signInAction =async()=>{
 
 
-    try{
-      const response = await axios.post(`${BaseURL}/moderator/signUp`,{
-        username:username,
-        password:password
-      }
-      )
+    moderatorSignUp(username,password).then(res=>{
       navigate(0)
-    }
-    catch(err){
-      alert("SignUp action failed")
-    }
-    
+    }).catch(res=>{
+      alert(res.responce.data.message)
+    })
+  
     
   }
 

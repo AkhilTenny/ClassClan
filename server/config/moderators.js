@@ -22,7 +22,7 @@ const moderatorModel = new mongoose.model("moderator", moderatorSchema)
 
 
 module.exports= {
-  moderatorModel,
+  moderatorModel
 
 
 }
