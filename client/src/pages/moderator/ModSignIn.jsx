@@ -2,6 +2,10 @@ import React from 'react'
 import { useState } from 'react'
 import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
+import axios from 'axios';
+
+const baseURL = process.env.REACT_APP_BASE_URL;
+
 
 function ModSignIn() {
   const [option,setOption] = useState(true);
@@ -41,6 +45,14 @@ function ModSignIn() {
           option ?
           <SignIn/> : <SignUp/>
         }
+        <button onClick={()=>{
+         
+          fetch(`${baseURL}/moderator/hai`).then((response)=>{
+            console.log("haida")
+          }).catch(err=>{
+            setOption(true)          }
+          )
+        }}>hai</button>
     </div>
   
   )

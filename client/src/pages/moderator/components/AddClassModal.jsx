@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { addClass } from '../../../action/api/moderatorAPIs';
 import { useToken } from '../../../context/AuthContext';
 import { useApi } from '../../../action/api/moderatorAPIs'; 
 
@@ -17,7 +16,7 @@ function AddClassModal() {
     addClass(body).then(res=>{
       console.log(res)
     }).catch(res=>{
-      console.log(res)
+      console.log("sd",res)
     })
 
   }

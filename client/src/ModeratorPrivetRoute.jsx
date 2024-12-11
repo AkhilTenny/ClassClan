@@ -8,7 +8,6 @@ function ModeratorPrivetRoute() {
 
   useEffect(()=>{
     if(localStorage.getItem("moderatorAuthToken") != null || location.pathname == "/moderator/signIn"){
-      console.log("hai")
     }else{
       setPass(false)
 

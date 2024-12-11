@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import Header from './components/Header';
 import AddClassModal from './components/AddClassModal';
-import { useToken } from '../../context/AuthContext';
-import moderatorClassCard from './components/moderatorClassCard';
 import { useApi } from '../../action/api/moderatorAPIs';
+import ModeratorClassCard from './components/ModeratorClassCard';
 
 
 
@@ -13,11 +12,10 @@ function  Dashboard() {
   const {getClassList} = useApi()
 
   const [classList,setClassList]  = useState([])
-  const {modToken} = useToken()
   
   useEffect(()=>{
     getClassList().then(res=>{ 
-      console.log(res.data)
+      setClassList(res.data.classList)
     })
   
         
@@ -34,8 +32,8 @@ function  Dashboard() {
         <h1 className='text-xl ml-3 font-bold cursor-pointer'>Your classes:</h1>
         </div>
         {
-          classList.map((item)=>(
-            <moderatorClassCard/>
+          classList.map((item,index)=>(
+            <ModeratorClassCard key={index} class={item}/>
           ))
         }
        

@@ -37,8 +37,28 @@ function classList(moderatorId){
 }
 
 
+function getClassInfo(classId){
+  return new Promise(async(resolve, reject) => {
+    
+    await classModel.aggregate([
+      {$match:{
+        classId:classId
+      }}
+    ]).then(res=>{
+      resolve(res)
+    }).catch(err=>{
+      reject(err)
+    })
+
+    
+  }) 
+  
+}
+
+
 module.exports={
   createClass,
   classList,
+  getClassInfo
 
 }

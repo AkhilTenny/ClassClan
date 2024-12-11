@@ -7,6 +7,7 @@ import ModSignIn from './pages/moderator/ModSignIn';
 import Dashboard from './pages/moderator/ Dashboard';
 import { TokenProvider } from './context/AuthContext';
 import ModeratorPrivetRoute from './ModeratorPrivetRoute';
+import EditClass from './pages/moderator/EditClass';
 
 
 function App() {
@@ -21,7 +22,9 @@ function App() {
             <Route path='moderator' element={<ModeratorPrivetRoute/>} >
                 <Route path='signIn' element={<ModSignIn/>}/>
                 <Route path='dashboard' element={<Dashboard/>}/>
+                <Route path="editClass/:id" element={<EditClass/>}>
             </Route>
+      </Route>
 
 
       </Route>

@@ -3,12 +3,13 @@ import { useToken } from "../../context/AuthContext";
 
 const baseURL = process.env.REACT_APP_BASE_URL;
 
+
 export const useApi=()=>{
 
   const {modToken} = useToken()
 
   const headers = {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
     'authorization': modToken,
   }
 
@@ -28,10 +29,7 @@ export const useApi=()=>{
   const addClass = (body)=>{
   return new Promise(async(resolve, reject) => {
 
-    axios.post(`${baseURL}/moderator/addClass`,body,{
-      'Content-Type': 'application/json',
-      'authorization': modToken,
-    }).then(res=>[
+    axios.post(`${baseURL}/moderator/addClass`,body,{headers}).then(res=>[
       resolve(res)
     ]).catch(res=>{
       reject(res)
@@ -43,7 +41,7 @@ export const useApi=()=>{
 
   const moderatorSignIn= (username,password)=>{
   return new Promise(async(resolve, reject) => {
-    await axios.post(`${baseURL}/moderator/signIn`, {
+    await axios.post(`/moderator/signIn`, {
       username: username,
       password: password,
     }).then((res)=>{
@@ -70,11 +68,25 @@ export const useApi=()=>{
     })
     
   }
+
+  const getClassInfo=(classId)=>{
+    return new Promise(async(resolve, reject) => {
+        await axios.get(`${baseURL}/moderator/getClassInfo/${classId}`).then((res)=>{
+          resolve(res)
+        }).catch(err=>{
+          console.log(err)
+
+          reject(err)
+        })
+    })
+    
+  }
   return{
     moderatorSignIn,
     moderatorSignUp,
     getClassList,
-    addClass
+    addClass,
+    getClassInfo
   }
   
   

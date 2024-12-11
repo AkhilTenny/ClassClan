@@ -39,6 +39,8 @@ router.post('/signUp', function(req, res, next) {
 });
 
 router.post("/signIn",function(req,res,next){
+  console.log(req.body.username)
+
   moderatorHelper.findUser(req.body.username).then((res1)=>{
     moderatorHelper.checkPassword(req.body).then(async(res2)=>{
       console.log("res 2:",res2)
@@ -67,5 +69,15 @@ router.get('/classList',findUser,function(req,res){
   })
 })
 
+
+router.get("/getClassInfo/:id",(req,res)=>{
+  classHelper.getClassInfo(req.params['id']).then((response)=>{
+    res.status(200).json({response})
+  }).catch((err)=>{
+    res.status(400).json({
+      err
+    })
+  })
+})
 
 module.exports = router;
