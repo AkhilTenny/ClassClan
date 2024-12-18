@@ -13,8 +13,7 @@ const moderatorSchema = new mongoose.Schema({
   password:{
     type:String,
     required:true
-  },
-  classes:[]
+  }
 })
 
 const moderatorModel = new mongoose.model("moderator", moderatorSchema)

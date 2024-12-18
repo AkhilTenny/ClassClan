@@ -7,9 +7,16 @@ const studentSchema = mongoose.Schema({
   studentName:String,
   rollNo:Number,
   phoneNo:Number,
-  DOB:Date,
+  DOB:String,
   admNo:Number,
   email:String,
   classId:String
 
 })
+
+
+const studentModel = new mongoose.model('student',studentSchema)
+
+module.exports={
+  studentModel
+}

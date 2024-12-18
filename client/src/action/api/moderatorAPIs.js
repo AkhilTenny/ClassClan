@@ -1,8 +1,7 @@
 import axios from "axios";
 import { useToken } from "../../context/AuthContext";
 
-const baseURL = process.env.REACT_APP_BASE_URL;
-
+const baseURL = process.env.REACT_APP_BASE_URL
 
 export const useApi=()=>{
 
@@ -15,10 +14,13 @@ export const useApi=()=>{
 
   const getClassList=()=>{
   return new Promise((resolve, reject) => {
+    axios.get(`/moderator/classList`,{headers}).then(res=>{
+      console.log("haisugano")
 
-    axios.get(`${baseURL}/moderator/classList`,{headers}).then(res=>{
       resolve(res)
   }).catch(err=>{
+    console.log("err")
+
     reject(err.response)
   })
   
@@ -29,7 +31,7 @@ export const useApi=()=>{
   const addClass = (body)=>{
   return new Promise(async(resolve, reject) => {
 
-    axios.post(`${baseURL}/moderator/addClass`,body,{headers}).then(res=>[
+    axios.post(`/moderator/addClass`,body,{headers}).then(res=>[
       resolve(res)
     ]).catch(res=>{
       reject(res)
@@ -39,7 +41,7 @@ export const useApi=()=>{
   
  }
 
-  const moderatorSignIn= (username,password)=>{
+  const moderatorSignIn = (username,password)=>{
   return new Promise(async(resolve, reject) => {
     await axios.post(`/moderator/signIn`, {
       username: username,
@@ -52,10 +54,23 @@ export const useApi=()=>{
     
   })
   }
+  
+  const addStudent = (studentDetails,classId)=>{
+    return new Promise(async(resolve,reject)=>{
+       await axios.post(`/moderator/addStudent`,
+        {studentDetails,classId:classId}
+        ,{headers}).then(res=>{
+        resolve(res)
+       }).catch(err=>{
+        reject(err)
+       })
+    })
 
-   const moderatorSignUp =(username,password)=>{
+  }
+
+   const moderatorSignUp = (username,password)=>{
     return new Promise(async(resolve, reject) => {
-      await axios.post(`${baseURL}/moderator/signUp`,{
+      await axios.post(`/moderator/signUp`,{
         username:username,
         password:password
       })
@@ -71,7 +86,7 @@ export const useApi=()=>{
 
   const getClassInfo=(classId)=>{
     return new Promise(async(resolve, reject) => {
-        await axios.get(`${baseURL}/moderator/getClassInfo/${classId}`).then((res)=>{
+        await axios.get(`/moderator/getClassInfo/${classId}`).then((res)=>{
           resolve(res)
         }).catch(err=>{
           console.log(err)
@@ -81,12 +96,58 @@ export const useApi=()=>{
     })
     
   }
+  const getStudentsList=async(classId)=>{
+
+    return new Promise(async(resolve, reject) => {
+      await axios.get(`/moderator/getStudentsList/${classId}`,{headers}).then(res=>{
+        
+        resolve(res.data)
+      }).catch(err=>{
+        reject(err)
+      })
+  })}
+  const getStudentInfo=(studentId)=>{
+    return new Promise(async(resolve, reject) => {
+      await axios.get(`/moderator/getStudentInfo/${studentId}`,{headers}).then(res=>{
+        resolve(res.data)
+      }).catch(err=>{
+        resolve(err)
+      })
+    })
+    
+  }
+
+  const editStudent=(studentInfo,studentId)=>{
+    return new Promise(async(resolve, reject) => {
+      await axios.post('/moderator/editStudent',{
+        studentInfo,studentId:studentId
+    }
+    ,{headers}).then(res=>{
+      resolve(res)
+    }).catch(err=>{
+      reject(err)
+    })
+    })
+    
+  }
+
+
+  
+  
+
+ 
+
+
   return{
     moderatorSignIn,
     moderatorSignUp,
     getClassList,
     addClass,
-    getClassInfo
+    getClassInfo,
+    addStudent,
+    getStudentsList,
+    getStudentInfo,
+    editStudent
   }
   
   

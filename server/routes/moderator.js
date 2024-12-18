@@ -4,17 +4,19 @@ const tokenKey = process.env.tokenKey
 const jwt = require("jsonwebtoken")
 const moderatorHelper = require("../helpers/moderatorHelper");
 const classHelper = require('../helpers/classHelper')
+const studentHelper = require('../helpers/studentHelper');
+const { response } = require('../app');
 
 /* middleware to check and return the userId with Token */
 
 function findUser(req,res,next){
-
+  
   const tokenData = jwt.verify(req.headers['authorization'],tokenKey)
   if(tokenData){
     
     moderatorHelper.findModeratorDataWithId(tokenData.moderatorId).then((moderatorData)=>{
       req.moderatorData = moderatorData[0]
-    
+      
       next()
     })
 
@@ -77,6 +79,56 @@ router.get("/getClassInfo/:id",(req,res)=>{
     res.status(400).json({
       err
     })
+  })
+})
+
+
+router.post("/addStudent",findUser,(req,res)=>{
+  
+  studentHelper.addStudent(req.body.studentDetails,req.body.classId).then((response)=>{
+    console.log(response)
+    res.status(200).json({response})
+  }).catch((err)=>{
+
+    res.status(400).json({
+      err
+    })
+  })
+})
+
+
+
+router.get('/getStudentsList/:classId',findUser,(req,res)=>{
+  const classId = req.params['classId']
+  studentHelper.getStudentsList(classId).then(response=>{
+    res.status(200).json(response)
+  }).catch(err=>{
+    res.status(400).json(err)
+  })
+})
+
+
+router.get('/getStudentInfo/:studentId',findUser,(req,res)=>{
+
+  studentHelper.getStudentInfo(req.params['studentId']).then(response=>{
+    res.status(200).json(response)
+  }).catch(err=>{
+    res.status(400).json(
+      err
+    )
+  })
+})
+
+router.post('/editStudent',findUser,(req,res)=>{
+
+  const studentInfo = req.body.studentInfo
+  const studentId = req.body.studentId;
+
+  studentHelper.editStudent(studentInfo,studentId).then(response=>{
+    res.status(200).json(response)
+  }).catch(err=>{
+    res.status(400).json(err)
+
   })
 })
 

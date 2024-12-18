@@ -100,7 +100,7 @@ async function findModeratorId(username){
   ])
   const moderatorId = cryptoId[0]
   return moderatorId;
-}
+} 
 
 function findModeratorDataWithId(moderatorId){
   return new Promise(async(resolve, reject) => {

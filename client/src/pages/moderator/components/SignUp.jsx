@@ -91,8 +91,13 @@ function SignUp() {
                     pass ?
                     <button 
                     onClick={signInAction}
-                     className='shadow-xl bg-gradient-to-b from-customPink-3 to-customPink-6  bg-lime-500 p-2 rounded-md mt-4' type="submit" >Sign Up</button> :
-                    <button className='shadow-xl bg-gradient-to-b from-gray-300 to-gray-500  p-2 rounded-md mt-4 cursor-not-allowed' type="submit" disabled={true}>Sign Up</button>
+                     className='shadow-xl text-white bg-gradient-to-b from-customPink-3 to-customPink-6  bg-lime-500 p-2 rounded-md mt-4' type="submit" >
+                      Sign Up
+                      </button> :
+                    <button 
+                    className='shadow-xl bg-gradient-to-b from-gray-300 to-gray-500  p-2 rounded-md mt-4 cursor-not-allowed' type="submit" disabled={true}>
+                      Sign Up
+                      </button>
 
 
                   }
