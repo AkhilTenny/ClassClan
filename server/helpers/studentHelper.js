@@ -95,10 +95,22 @@ function editStudent(studentDetails,studentId){
   
 }
 
+function deleteStudent(studentId){
+  return  new Promise(async(resolve, reject) => {
+    await studentModel.findOneAndDelete({studentId:studentId}).then(response=>{
+      resolve(response)
+    }).catch(err=>{
+      reject(err)
+    })
+  })
+  
+}
+
 
 module.exports={
   addStudent,
   getStudentsList,
   getStudentInfo,
-  editStudent
+  editStudent,
+  deleteStudent
 }

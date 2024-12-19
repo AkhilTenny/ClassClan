@@ -131,6 +131,19 @@ export const useApi=()=>{
     
   }
 
+  const deleteStudent=(studentId)=>{
+    return new Promise(async(resolve,reject)=>{
+      await axios.post('/moderator/deleteStudent',{
+        studentId:studentId
+      },
+    {headers}).then(res=>{
+      resolve(res);
+    }).catch(err=>{
+      reject(err);
+    })
+    })
+  }
+
 
   
   
@@ -147,7 +160,8 @@ export const useApi=()=>{
     addStudent,
     getStudentsList,
     getStudentInfo,
-    editStudent
+    editStudent,
+    deleteStudent
   }
   
   

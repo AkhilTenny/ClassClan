@@ -132,4 +132,14 @@ router.post('/editStudent',findUser,(req,res)=>{
   })
 })
 
+router.post('/deleteStudent',findUser,(req,res)=>{
+  const studentId = req.body.studentId;
+
+  studentHelper.deleteStudent(studentId).then(response=>{
+    res.status(200).json(response)
+  }).catch(err=>{
+    res.status(400).json(err)
+  })
+})
+ 
 module.exports = router;
