@@ -144,6 +144,19 @@ export const useApi=()=>{
     })
   }
 
+  const editClass = (classId,classData)=>{
+    return new Promise(async(resolve,reject)=>{
+      console.log(classData)
+      await axios.post("/moderator/editClass",{
+        classData,classId
+       },{headers}).then(res=>{
+        resolve(res)
+      }).catch(err=>{
+        reject(err)
+      })
+    })
+  }
+
 
   
   
@@ -161,7 +174,8 @@ export const useApi=()=>{
     getStudentsList,
     getStudentInfo,
     editStudent,
-    deleteStudent
+    deleteStudent,
+    editClass
   }
   
   

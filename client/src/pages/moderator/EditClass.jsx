@@ -1,24 +1,114 @@
-import React, { useEffect } from 'react'
+import React, { useEffect,useRef,useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useApi } from '../../action/api/moderatorAPIs'
 import Header from './components/Header'
 
 
 function EditClass() {
+ 
+  const classNameInput = useRef(null);
+  const classInstitutionInput = useRef(null);
+  const startYearInput = useRef(null);
+  const endYearInput = useRef(null);
+
+
   const {id} = useParams()
-  const {getClassInfo}  = useApi();
+
+  const [details,setDetails] = useState([])
+  const [apiDetails,setApiDetails] = useState([])
+  const [pass,setPass] = useState(false);
+
+  const {getClassInfo,editClass}  = useApi();
   const navigate = useNavigate();
   const studentsClickAction=()=>{
     navigate('studentsList')
   }
-  useEffect(()=>{
+  useEffect(()=>{  
     getClassInfo(id).then((res)=>{
-      console.log(res.data.response[0].className)
+      setInputs(res.data.response[0])
     }).catch(err=>{
-      console.log(err)
+      alert(err)
     })
     
   },[''])
+
+  useEffect(()=>{
+
+    if(apiDetails.className == details.className &&
+      apiDetails.institution == details.institution &&
+      apiDetails.sYear == details.sYear &&
+      apiDetails.eYear == details.eYear
+    ){
+      setPass(false)
+    }else{
+      setPass(true)
+    }
+
+  },[details])
+
+  const editClassAction=()=>{
+    editClass(id,details).then(res=>{
+     
+    }).catch(err=>{
+      alert(err)
+    })
+  }
+
+  const setInputs = (classData)=>{
+
+    setApiDetails({
+      className:classData.className || '',
+      institution:classData.institution || '',
+      sYear:classData.sYear || '',
+      eYear:classData.eYear || ''
+    })
+
+    setDetails({
+      className:classData.className || '',
+      institution:classData.institution || '',
+      sYear:classData.sYear || '',
+      eYear:classData.eYear || ''
+    })
+
+    classNameInput.current.value = classData.className || ''
+    classInstitutionInput.current.value = classData.institution || ""
+    startYearInput.current.value = classData.sYear || "";
+    endYearInput.current.value = classData.eYear || "";
+  }
+
+  const formChanged=(name,value)=>{
+    switch(name){
+      case "className":
+        setDetails((previousState)=>{
+          return{
+            ...previousState,className:value
+          }
+        })
+        break;
+        case "institution":
+          setDetails((previousState)=>{
+            return{
+              ...previousState,institution:value
+            }
+          })
+          break;
+        case "sYear":
+          setDetails((previousState)=>{
+            return{
+              ...previousState,sYear:value
+            }
+          })
+          break;
+        case "eYear":
+          setDetails((previousState)=>{
+            return{
+              ...previousState,eYear:value
+            }    
+          })
+          break;
+
+    }
+  }
 
   return (
     <div className='w-full h-screen'>
@@ -26,22 +116,46 @@ function EditClass() {
     <div  className='p-4 ' >
     <div>
         <h2 className='text-lg mt-4'>Class Name:</h2>
-        <input  type="text" name="className" className='p-2 w-full rounded-md'  />
+        <input  
+          type="text"
+          ref={classNameInput}
+          name="className"
+          onChange={(e)=>{
+            formChanged(e.target.name,e.target.value)
+          }}
+          className='p-2 w-full rounded-md'  />
       </div>
 
       <div>
         <h2 className='text-lg mt-4'> College/School:</h2>
-        <input type="text" name="className"  className='p-2 w-full rounded-md' />
+        <input type="text"
+          ref={classInstitutionInput}
+         name="institution"
+         onChange={(e)=>{
+          formChanged(e.target.name,e.target.value)
+        }}
+           className='p-2 w-full rounded-md' />
       </div>
 
       <div className='w-full flex mt-4'>
         <div className='w-1/2 pr-2'>
             <h2 className='text-lg'>Starting Year:</h2>
-            <input type="text" name="className" className='p-2 w-full rounded-md'   />
+            <input type="text"
+                    ref={startYearInput}
+                    onChange={(e)=>{
+                      formChanged(e.target.name,e.target.value)
+                    }}
+                    name="sYear" className='p-2 w-full rounded-md'   />
          </div>
          <div className='w-1/2 pl-2'>
             <h2 className='text-lg'>Ending Year:</h2>
-            <input type="text" name="className" className='p-2 w-full rounded-md' />
+            <input type="text"
+                   ref={endYearInput}
+                   name="eYear" 
+                   onChange={(e)=>{
+                    formChanged(e.target.name,e.target.value)
+                  }}
+                   className='p-2 w-full rounded-md' />
          </div>
       </div>
       <div className='flex '>
@@ -65,7 +179,17 @@ function EditClass() {
         </div>
       </div>
       
+      <div className='w-full flex justify-end'>
+        {
+          pass?
+          <button 
+            onClick={editClassAction}
+            className='px-3 py-1 bg-customBlue-7 text-white mt-2 rounded-lg' >Done</button> :
+          <button className='px-3 py-1 bg-gray-400 text-white mt-2 rounded-lg' >Done</button>
 
+
+        }
+      </div>
     </div>
       
     </div>

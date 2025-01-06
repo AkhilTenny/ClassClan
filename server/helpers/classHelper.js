@@ -56,6 +56,16 @@ function getClassInfo(classId){
 }
 
 
+function editClass(classId,classInfo){
+   return new Promise(async(resolve, reject) => {
+    await classModel.findOneAndUpdate({classId:classId},{$set{
+      
+    }})
+  })
+  
+}
+
+
 module.exports={
   createClass,
   classList,

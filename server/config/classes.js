@@ -6,7 +6,8 @@ const classScheme = mongoose.Schema({
   className:String,
   institution:String,
   students:[],
-  year:Number,
+  sYear:Number,
+  eYear:Number,
   description:String,
   Subjects:[],
   moderatorId:String
