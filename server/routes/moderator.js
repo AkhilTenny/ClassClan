@@ -144,9 +144,9 @@ router.post('/deleteStudent',findUser,(req,res)=>{
 
 
 router.post('/editClass',findUser,(req,res)=>{
-  const classInfo = req.body.classInfo;
+  const classInfo = req.body.classData;
   const classId = req.body.classId
-  console.log(classInfo)
+  classHelper.editClass(classId,classInfo)
 })
  
 module.exports = router;

@@ -58,9 +58,19 @@ function getClassInfo(classId){
 
 function editClass(classId,classInfo){
    return new Promise(async(resolve, reject) => {
-    await classModel.findOneAndUpdate({classId:classId},{$set{
-      
-    }})
+    console.log("haiii")
+      classModel.findOneAndUpdate({classId:classId},{
+        $set:{
+          className:classInfo.className,
+          institution:classInfo.institution,
+          sYear:classInfo.sYear,
+          eYear:classInfo.eYear,
+        }}
+      ).then(res=>{
+        resolve(res)
+      }).catch(err=>{
+        reject(err)
+      })
   })
   
 }
@@ -69,6 +79,7 @@ function editClass(classId,classInfo){
 module.exports={
   createClass,
   classList,
-  getClassInfo
+  getClassInfo,
+  editClass
 
 }

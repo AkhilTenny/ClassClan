@@ -1,6 +1,7 @@
 import React, { useEffect,useRef,useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useApi } from '../../action/api/moderatorAPIs'
+import EditClassConfirmModal from './components/EditClassConfirmModal'
 import Header from './components/Header'
 
 
@@ -11,12 +12,15 @@ function EditClass() {
   const startYearInput = useRef(null);
   const endYearInput = useRef(null);
 
+ 
 
   const {id} = useParams()
 
   const [details,setDetails] = useState([])
   const [apiDetails,setApiDetails] = useState([])
   const [pass,setPass] = useState(false);
+  const [yearPass,setYearPass] = useState(true)
+  const [confirmModal,setConfirmModal] = useState(false)
 
   const {getClassInfo,editClass}  = useApi();
   const navigate = useNavigate();
@@ -32,6 +36,38 @@ function EditClass() {
     
   },[''])
 
+  const closeModal = ()=>{
+    setConfirmModal(false)
+  }
+
+  const checkYear = (year)=>{
+
+    if(year ="sYear"){
+      let year = startYearInput.current.value;
+      let yearLength = year.toString().length
+      if(yearLength == 4 && year.toString().startsWith('20')){
+        setYearPass(true)
+        setPass(true)
+      }else{
+        setYearPass(false)
+        setPass(false)
+      }
+
+    }else if(year = "eYear"){
+      let year = endYearInput.current.value;
+      let yearLength = year.toString().length
+      if(yearLength == 4 && year.toString().startsWith('20')){
+        setYearPass(true)
+        setPass(true)
+      }else{
+        setYearPass(false)
+        setPass(false)
+      }
+    }else{
+      return 0;
+    }
+  }
+ console.log(pass)
   useEffect(()=>{
 
     if(apiDetails.className == details.className &&
@@ -47,11 +83,13 @@ function EditClass() {
   },[details])
 
   const editClassAction=()=>{
-    editClass(id,details).then(res=>{
+    // editClass(id,details).then(res=>{
      
-    }).catch(err=>{
-      alert(err)
-    })
+    // }).catch(err=>{
+    //   alert(err)
+    // })
+
+    setConfirmModal(true)
   }
 
   const setInputs = (classData)=>{
@@ -93,18 +131,22 @@ function EditClass() {
           })
           break;
         case "sYear":
+          
           setDetails((previousState)=>{
             return{
               ...previousState,sYear:value
             }
           })
+          checkYear("sYear");
           break;
         case "eYear":
+          
           setDetails((previousState)=>{
             return{
               ...previousState,eYear:value
             }    
           })
+          checkYear("eYear");
           break;
 
     }
@@ -157,7 +199,16 @@ function EditClass() {
                   }}
                    className='p-2 w-full rounded-md' />
          </div>
+         
+        
       </div>
+      <div>
+         {
+          yearPass  ||
+          <h2>Please Enter a Valid Year</h2>
+
+         }
+         </div>
       <div className='flex '>
       <div 
       className=" bg-[url('./assets/students.jpeg')] bg-cover bg-center w-1/2 h-52 lg:h-64 mt-5 opacity-75 shadow-lg   rounded-lg cursor-pointer"
@@ -190,8 +241,9 @@ function EditClass() {
 
         }
       </div>
-    </div>
-      
+    </div>{
+      confirmModal &&
+  <EditClassConfirmModal closeModal={closeModal} id={id} details={details} />}
     </div>
   )
 }
