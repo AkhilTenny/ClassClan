@@ -146,7 +146,62 @@ router.post('/deleteStudent',findUser,(req,res)=>{
 router.post('/editClass',findUser,(req,res)=>{
   const classInfo = req.body.classData;
   const classId = req.body.classId
-  classHelper.editClass(classId,classInfo)
+  classHelper.editClass(classId,classInfo).then(res=>{
+    res.status(200).json(res)
+  }).catch(err=>{
+    res.status(400).json(err)
+  })
 })
  
+
+router.get("/getSubjectsList/:classId",findUser,(req,res)=>{
+  const classId = req.params.classId;
+  classHelper.getSubjectsList(classId).then(response=>{
+     console.log
+    res.status(200).json(response)
+  }).catch(err=>{
+    res.status(400).json("error")
+  })
+
+})
+
+router.post('/addSubject',findUser,(req,res)=>{
+  const subjectInfo = req.body.subjectInfo
+  const classId = req.body.classId
+  
+  classHelper.addSubject(classId,subjectInfo)
+  .then(response=>{
+    res.status(200).json(response)
+  }).catch(err=>{
+    res.status(400).json(err)
+  })
+})
+
+router.post("/editSubject",findUser,async(req,res)=>{
+  
+  const classId = req.body.classId;
+  const subjectName = req.body.subjectName;
+  const subjectDetails = req.body.subjectDetails;
+  
+  await classHelper.editSubject(classId,subjectName,subjectDetails).then(response=>{
+    res.status(200).json(response)
+  }).catch(err=>{ 
+
+    res.status(400).json(err)
+  })
+})
+
+
+router.post('/deleteSubject',findUser,(req,res)=>{
+  const classId = req.body.classId
+  const subjectName = req.body.subjectName
+  classHelper.deleteSubject(classId,subjectName).then(response=>{
+    res.status(200).json(response)
+  }).catch(err=>{
+    res.status(400).json(err)
+  })
+})
+
+
+
 module.exports = router;

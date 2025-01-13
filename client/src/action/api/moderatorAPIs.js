@@ -146,7 +146,6 @@ export const useApi=()=>{
 
   const editClass = (classId,classData)=>{
     return new Promise(async(resolve,reject)=>{
-      console.log(classData)
       await axios.post("/moderator/editClass",{
         classData,classId
        },{headers}).then(res=>{
@@ -157,9 +156,59 @@ export const useApi=()=>{
     })
   }
 
+  const getSubjectsList=(classId)=>{
+    return new Promise(async(resolve, reject) => {
+      await axios.get(`/moderator/getSubjectsList/${classId}`,{headers}).then((res)=>{
+       
+        resolve(res.data)
+      }).catch(err=>{
+        reject(err)
+      })
+    })
+    
+  }
 
+  const addSubject= (classId,subjectInfo)=>{
+    return new Promise(async(resolve, reject) => {
+      await axios.post(`/moderator/addSubject`,{subjectInfo,classId:classId},{headers}).then(res=>{
+        resolve(res)
+      }).catch(err=>{
+        reject(err)
+      })
+    })
+    
+
+  }
+
+
+  const editSubject=(classId,subjectName,subjectDetails)=>{
+      return new Promise(async(resolve, reject) => {
+        await axios.post('/moderator/editSubject',
+          {classId:classId,subjectName:subjectName,subjectDetails},{headers})
+          .then(res=>{
+            resolve(res.data)
+            console.log("ahihi")
+          }).catch(err=>{
+            reject(err)
+          })
+      })  
+      
+  }
   
-  
+
+  const deleteSubject=(classId,subjectName)=>{
+    
+    return new Promise(async(resolve, reject) => {
+      await axios.post('/moderator/deleteSubject',{
+        classId:classId,subjectName:subjectName
+      },{headers})
+    .then(res=>{
+      resolve(res)
+    }).catch(err=>{
+      reject(err)
+    })
+    
+  })}
 
  
 
@@ -175,7 +224,11 @@ export const useApi=()=>{
     getStudentInfo,
     editStudent,
     deleteStudent,
-    editClass
+    editClass,
+    getSubjectsList,
+    addSubject, 
+    editSubject,
+    deleteSubject,
   }
   
   

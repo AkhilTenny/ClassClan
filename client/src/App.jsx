@@ -11,7 +11,7 @@ import ModeratorPrivetRoute from './ModeratorPrivetRoute';
 import EditClass from './pages/moderator/EditClass';
 import StudentsList from './pages/moderator/StudentsList';
 import AddStudent from './pages/moderator/AddStudent';
-
+import SubjectsList from './pages/moderator/SubjectsList';
 
 function App() {
   return (
@@ -28,6 +28,7 @@ function App() {
                 <Route path="editClass/:id" element={<EditClass/>}/>
                 <Route path="editClass/:id/studentsList" element={<StudentsList/>}/>
                 <Route path="editClass/:id/addStudent" element={<AddStudent/>}/>
+                <Route path='editClass/:id/subjectsList' element={<SubjectsList/>}/>
 
 
 

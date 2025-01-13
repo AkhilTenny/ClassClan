@@ -27,6 +27,9 @@ function EditClass() {
   const studentsClickAction=()=>{
     navigate('studentsList')
   }
+  const subjectsClickAction=()=>{
+    navigate('subjectsList')
+  }
   useEffect(()=>{  
     getClassInfo(id).then((res)=>{
       setInputs(res.data.response[0])
@@ -41,8 +44,7 @@ function EditClass() {
   }
 
   const checkYear = (year)=>{
-
-    if(year ="sYear"){
+    if(year =="sYear"){
       let year = startYearInput.current.value;
       let yearLength = year.toString().length
       if(yearLength == 4 && year.toString().startsWith('20')){
@@ -53,7 +55,7 @@ function EditClass() {
         setPass(false)
       }
 
-    }else if(year = "eYear"){
+    }else if(year == "eYear"){
       let year = endYearInput.current.value;
       let yearLength = year.toString().length
       if(yearLength == 4 && year.toString().startsWith('20')){
@@ -67,7 +69,6 @@ function EditClass() {
       return 0;
     }
   }
- console.log(pass)
   useEffect(()=>{
 
     if(apiDetails.className == details.className &&
@@ -83,12 +84,6 @@ function EditClass() {
   },[details])
 
   const editClassAction=()=>{
-    // editClass(id,details).then(res=>{
-     
-    // }).catch(err=>{
-    //   alert(err)
-    // })
-
     setConfirmModal(true)
   }
 
@@ -147,13 +142,14 @@ function EditClass() {
             }    
           })
           checkYear("eYear");
+          
           break;
 
     }
   }
 
   return (
-    <div className='w-full h-screen'>
+    <div className='w-full h-screen bg-customPink-1' >
     <Header/>
     <div  className='p-4 ' >
     <div>
@@ -182,7 +178,7 @@ function EditClass() {
       <div className='w-full flex mt-4'>
         <div className='w-1/2 pr-2'>
             <h2 className='text-lg'>Starting Year:</h2>
-            <input type="text"
+            <input type="number"
                     ref={startYearInput}
                     onChange={(e)=>{
                       formChanged(e.target.name,e.target.value)
@@ -191,7 +187,7 @@ function EditClass() {
          </div>
          <div className='w-1/2 pl-2'>
             <h2 className='text-lg'>Ending Year:</h2>
-            <input type="text"
+            <input type="number"
                    ref={endYearInput}
                    name="eYear" 
                    onChange={(e)=>{
@@ -205,7 +201,10 @@ function EditClass() {
       <div>
          {
           yearPass  ||
-          <h2>Please Enter a Valid Year</h2>
+          <div className='w-full flex justify-center text-red-700 mt-3'>
+            <h2>Please Enter a Valid Year 	&#9888;</h2>
+
+          </div>
 
          }
          </div>
@@ -221,7 +220,7 @@ function EditClass() {
         </div>
         <div 
         className=" bg-[url('./assets/subjects.jpeg')] bg-cover bg-center w-1/2 h-52 lg:h-64 mt-5 opacity-75 shadow-lg  ml-5 rounded-lg cursor-pointer"
-        
+         onClick={subjectsClickAction}
         >
           <div className='w-full h-full backdrop-brightness-120 bg-white/20  rounded-lg flex justify-center items-center'>
             <h1 className='[text-shadow:_0_1px_0_rgb(0_0_0_/_40%)] text-3xl font-mono text-black font-bold'>Subjects</h1>

@@ -184,7 +184,6 @@ function AddStudent() {
                 }}
                 type="number" 
                 name="admNo" 
-                className='rounded-md p-1 w-32'
                 ref={admNoInput}
 
               />
