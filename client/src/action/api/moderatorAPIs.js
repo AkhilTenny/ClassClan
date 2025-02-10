@@ -15,11 +15,9 @@ export const useApi=()=>{
   const getClassList=()=>{
   return new Promise((resolve, reject) => {
     axios.get(`/moderator/classList`,{headers}).then(res=>{
-      console.log("haisugano")
 
       resolve(res)
   }).catch(err=>{
-    console.log("err")
 
     reject(err.response)
   })

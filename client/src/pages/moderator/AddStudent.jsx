@@ -7,6 +7,8 @@ import AddSudentConfirmModal from './components/AddSudentConfirmModal';
 function AddStudent() {
   const [ confirmModal,setConfirmModal ] = useState(false);
   const [ addPass,setAddPass ] = useState(false);
+  const [ codeCheck,setCodeCheck ] = useState(false)
+
   const {id} = useParams();
   const nameInput = useRef(null)
   const rollNoInput = useRef(null)
@@ -14,7 +16,7 @@ function AddStudent() {
   const admNoInput = useRef(null)
   const phoneNoInput = useRef(null)
   const emailInput = useRef(null)
-  const imageInput = useRef(null)
+  const passcodeInput = useRef(null)
 
 
   const [details,setdetails]= useState({
@@ -23,7 +25,8 @@ function AddStudent() {
     dob:null,
     admNo:null,
     email:null,
-    rollNo:null
+    rollNo:null,
+    passcode:null
   })
 
   const clearInputs = ()=>{
@@ -33,7 +36,8 @@ function AddStudent() {
       dob:null,
       admNo:null,
       email:null,
-      rollNo:null
+      rollNo:null,
+      passcode:null
     })
     nameInput.current.value = ""
     rollNoInput.current.value = ""
@@ -41,15 +45,19 @@ function AddStudent() {
     admNoInput.current.value = ""
     phoneNoInput.current.value = ""
     dobInput.current.value = ""
-    imageInput.current.value = ""
+    passcodeInput.current.value = ""
     
 
 
   }
 
+ 
   useEffect(()=>{
 
     const allFieldsAreFilled = Object.values(details).every(value => value !== null && value !== undefined && value !== '');
+    
+    const passcodeLegnth = passcodeInput.current.value.length
+   
 
     if(allFieldsAreFilled ){
       setAddPass(true)
@@ -57,57 +65,28 @@ function AddStudent() {
       setAddPass(false)
 
      }
+    if(passcodeLegnth > 4 || passcodeLegnth < 4 ){
+        if(passcodeLegnth == 0){
+          setCodeCheck(false)
+
+        }else{
+
+          setCodeCheck(true)
+        }
+
+      }else{
+        setCodeCheck(false)
+      }
   
-  },[details,addPass])
+  },[details,addPass,codeCheck])
 
   const formChanged=(name,value)=>{
-    console.log(name,value)
     
-    switch(name){
-      case "name":
-        setdetails((previousState)=>{
-          return{
-            ...previousState,name:value
-          }
-        })
-        break;
-        case "phoneNo":
-          setdetails((previousState)=>{
-            return{
-              ...previousState,phoneNo:value
-            }
-          })
-          break;
-          case "dob":
-            console.log("set akkam")
-            setdetails((previousState)=>{
-              return{
-                ...previousState,dob:value
-              }
-            })
-            break;
-            case "admNo":
-              setdetails((previousState)=>{
-                return{
-                  ...previousState,admNo:value
-                }
-              })
-              break;
-              case "email":
-                setdetails((previousState)=>{
-                  return{
-                    ...previousState,email:value
-                  }
-                })
-                break;
-                case "rollNo":
-                setdetails((previousState)=>{
-                  return{
-                    ...previousState,rollNo:value
-                  }
-                })
-                break;
-    }
+    setdetails((previousState)=>{
+      return{
+        ...previousState,[name]:value
+      }
+    })
 
    
  }  
@@ -119,17 +98,7 @@ function AddStudent() {
         <div className=' rounded-xl w-full  bg-gray-200  p-5 shadow-xl' >
           <h1 className='text-2xl mb-5 font-bold'>Add Student:</h1>
           <div className=' md:flex flex flex-col md:flex-row justify-center items-center w-full'>
-           <div className="setConfirmModal'flex lg:justify-start justify-start items-center w-full md:w-1/2">
-            <h1 >Student&nbsp;Image:&nbsp;</h1>
-              <input
-                  id="avatar"
-                  type='file'
-                  name="avatar"
-                  accept="image/*"
-                  autoComplete="off"
-                  ref={imageInput}
-              />
-           </div>
+           
             <div className='flex md:justify-start justify-between mt-2 items-center w-full md:w-1/2'>
               <h1>Name: &nbsp;</h1>
               <input 
@@ -142,6 +111,25 @@ function AddStudent() {
                 ref={nameInput}
               />
             </div>
+            <div className="flex flex-col lg:justify-start justify-start items-center w-full md:w-1/2">
+              <div className='flex'>
+                <h1 >Student&nbsp;Passcode:&nbsp;</h1>
+                <input
+                    onChange={(e)=>{
+                      formChanged(e.target.name,e.target.value)
+                    }}
+                    type='number'
+                    name="passcode"
+                    className='rounded-md p-1'
+                    ref={passcodeInput}
+                />
+              </div>
+
+            { codeCheck &&
+                            <h1 className='text-red-600'>Plese enter a 4 digit pin</h1>
+
+            }
+           </div>
             
           </div>
 

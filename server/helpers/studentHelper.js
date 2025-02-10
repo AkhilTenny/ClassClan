@@ -24,6 +24,7 @@ function addStudent(studentDetails,classId){
         DOB:studentDetails.dob,
         admNo:studentDetails.admNo,
         email:studentDetails.email,
+        passcode:studentDetails.passcode,
         classId:classId
       })
       await newStudent.save();

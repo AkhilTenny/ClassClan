@@ -9,7 +9,7 @@ import { useApi } from '../../../action/api/moderatorAPIs';
 function SignIn() {
   const {moderatorSignIn} = useApi()
   const navigate = useNavigate();
-  const {  signIn, } = useToken();
+  const { signIn, } = useToken();
 
   const [formInputs,setformInputs] = useState({
     username:'',

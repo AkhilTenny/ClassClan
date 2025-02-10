@@ -24,7 +24,8 @@ function EditStudentModal(props) {
           dob:null,
           admNo:null,
           email:null,
-          rollNo:null
+          rollNo:null,
+
         })
       const [apiDetails,setApiDetails]= useState({
           name:null,
@@ -32,7 +33,9 @@ function EditStudentModal(props) {
           dob:null,
           admNo:null,
           email:null,
-          rollNo:null
+          rollNo:null,
+          passcode:null
+
       })
     
 
@@ -67,7 +70,8 @@ function EditStudentModal(props) {
           dob:studentInfo[0].dob,
           admNo:studentInfo[0].admNo,
           email:studentInfo[0].email,
-          rollNo:studentInfo[0].rollNo
+          rollNo:studentInfo[0].rollNo,
+          passcode:studentInfo[0].rollNo
         })
         setdetails({
           name:studentInfo[0].studentName,
@@ -87,6 +91,8 @@ function EditStudentModal(props) {
     
     
       }
+
+      console.log(apiDetails)
 
       const clearInputs = ()=>{
         setdetails({
@@ -176,15 +182,8 @@ function EditStudentModal(props) {
           <h1 className='text-2xl mb-5 font-bold'>Add Student:</h1>
           <div className=' md:flex flex flex-col md:flex-row justify-center items-center w-full'>
            <div className="setConfirmModal'flex lg:justify-start justify-start items-center w-full md:w-1/2">
-            <h1 >Student&nbsp;Image:&nbsp;</h1>
-              <input
-                  id="avatar"
-                  type='file'
-                  name="avatar"
-                  accept="image/*"
-                  autoComplete="off"
-                  ref={imageInput}
-              />
+            <h1 >Student&nbsp;Passcode:&nbsp;{apiDetails.passcode}</h1>
+              
            </div>
             <div className='flex md:justify-start justify-between mt-2 items-center w-full md:w-1/2'>
               <h1>Name: &nbsp;</h1>

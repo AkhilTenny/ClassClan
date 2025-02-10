@@ -1,12 +1,10 @@
 import React, { useState } from 'react'
-import { useToken } from '../../../context/AuthContext';
 import { useApi } from '../../../action/api/moderatorAPIs'; 
 
 function AddClassModal() {
   const [className,setClassName]=  useState(null)
   const {addClass} = useApi()
 
-  const {modToken} = useToken()
 
   const addClassAcion = ()=>{
    const body = {

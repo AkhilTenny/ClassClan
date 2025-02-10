@@ -42,7 +42,7 @@ async function checkPassword(userData){
       }
     ])
     const autenthicate = await bcrypt.compare(userData.password,userFound[0].password)
-    console.log(autenthicate)
+
     if(autenthicate){
       resolve(autenthicate)
     }else{
@@ -118,7 +118,7 @@ function findModeratorDataWithId(moderatorId){
 
  async function createUserToken(username){
     const moderatorId = await findModeratorId(username)
-    const token = jwt.sign(moderatorId,secretKey,{expiresIn:'1d'})
+    const token = jwt.sign(moderatorId,secretKey,{expiresIn:'5d'})
     console.log("token",moderatorId)
     return token  
 

@@ -10,6 +10,7 @@ const studentSchema = mongoose.Schema({
   DOB:String,
   admNo:Number,
   email:String,
+  passcode:Number,
   classId:String
 
 })
