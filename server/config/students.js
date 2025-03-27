@@ -29,7 +29,6 @@ const noteSchema = new mongoose.Schema({
 
 const Note = new mongoose.model("Note", noteSchema);
 
-
 const studentModel = new mongoose.model('student',studentSchema)
 
 module.exports={
