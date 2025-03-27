@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Logo from "../../assets/ClassClan-tranparent.png"
-import { userApi } from '../../action/api/userAPIs'
+import { useUserApi } from '../../action/api/userAPIs'
 import { useUserToken } from '../../context/userAuthContext'
 import { useNavigate } from 'react-router-dom'
 
 function SignIn() {
 
   const navigate = useNavigate();
-  const {signInUser} = userApi()
+  const {signInUser} = useUserApi()
   const {signIn} = useUserToken();
 
   const [credentials,setCredentials] = useState({
@@ -30,7 +30,7 @@ function SignIn() {
   const signInAction =()=>{
     signInUser(credentials).then(res=>{
       signIn(res.token)
-      navigate('/dashboard')
+      navigate('/')
       
     })
   }

@@ -36,6 +36,7 @@ function addStudent(studentDetails,classId){
   
 }
 
+
 function getStudentsList(classId){
   return new Promise(async(resolve, reject) => {
     try{
@@ -74,7 +75,19 @@ function getStudentInfo(studentId){
 
 function editStudent(studentDetails,studentId){
   return new Promise(async(resolve, reject) => {
-
+    const noteSchema = new mongoose.Schema({
+      title: String,
+      date: String,
+      subject: String,
+      files: [
+        {
+          fileName: String,
+          filePath: String,
+        },
+      ],
+    });
+    
+    const Note = mongoose.model("Note", noteSchema);
    
 
       studentModel.findOneAndUpdate({studentId:studentId},{

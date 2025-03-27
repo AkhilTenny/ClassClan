@@ -14,6 +14,9 @@ import StudentsList from './pages/moderator/StudentsList';
 import AddStudent from './pages/moderator/AddStudent';
 import SubjectsList from './pages/moderator/SubjectsList';
 import UserPrivetRoute from './UserPrivetRoute';
+import Home from './pages/user/Home';
+import UploadNotes from './pages/user/UploadNotes';
+
 
 function App() {
   return (
@@ -31,28 +34,19 @@ function App() {
                     <Route path="editClass/:id/studentsList" element={<StudentsList/>}/>
                     <Route path="editClass/:id/addStudent" element={<AddStudent/>}/>
                     <Route path='editClass/:id/subjectsList' element={<SubjectsList/>}/>
-
-
-
                     
                 </Route> 
             <Route element={<UserPrivetRoute/>} >
-            <Route path='dashboard' element={<Dashboard/>}/>
-
+              <Route path='' element={<Home/>}/>
+              <Route path='uploadnotes' element={<UploadNotes/>}/>
             </Route>
-
           </Route>
-
 
         </Routes>
       </UserTokenProvider> 
-      
-
+    
       </TokenProvider>
      
-
-  
-  
 
   )
 }

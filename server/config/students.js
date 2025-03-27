@@ -15,9 +15,24 @@ const studentSchema = mongoose.Schema({
 
 })
 
+const noteSchema = new mongoose.Schema({
+  title: String,
+  date: String,
+  subject: String,
+  files: [
+    {
+      fileName: String,
+      filePath: String,
+    },
+  ],
+});
+
+const Note = new mongoose.model("Note", noteSchema);
+
 
 const studentModel = new mongoose.model('student',studentSchema)
 
 module.exports={
-  studentModel
+  studentModel,
+  Note
 }

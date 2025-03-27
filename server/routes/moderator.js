@@ -146,8 +146,8 @@ router.post('/deleteStudent',findUser,(req,res)=>{
 router.post('/editClass',findUser,(req,res)=>{
   const classInfo = req.body.classData;
   const classId = req.body.classId
-  classHelper.editClass(classId,classInfo).then(res=>{
-    res.status(200).json(res)
+  classHelper.editClass(classId,classInfo).then(response=>{
+    res.status(200).json(response)
   }).catch(err=>{
     res.status(400).json(err)
   })
